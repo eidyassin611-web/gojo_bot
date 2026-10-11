@@ -1,5 +1,5 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram import Updatefrom telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.request import HTTPXRequest
 import hashlib, random, qrcode, string, requests, datetime
 
 TOKEN = "8813856122:AAEjFFENt-1r5-vQT_5E-5FcN4zhdVKv1u8"
@@ -122,7 +122,8 @@ async def joke(update, context): await update.message.reply_text(random.choice([
 async def tip(update, context): await update.message.reply_text("🚀 نزل كل يوم + 3 هاشتاجات + رد أول ساعة")
 
 # تشغيل
-app = Application.builder().token(TOKEN).build()
+request = HTTPXRequest(proxy_url="http://proxy.server:3128")
+app = Application.builder().token(TOKEN).request(request).build()
 handlers = [("start",start),("help",start),("quran",quran),("azkar",azkar),("quiz",quiz),("prayer",prayer),("pass",pass_check),("genpass",genpass),("hash",hash_it),("qr",qr_gen),("anime",anime),("cartoon",cartoon),("movie",movie),("kora",kora),("team",team),("match",match),("calc",calc),("dice",dice),("joke",joke),("tip",tip)]
 for c,f in handlers: app.add_handler(CommandHandler(c,f))
 
